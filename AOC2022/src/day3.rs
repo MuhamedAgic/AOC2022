@@ -97,3 +97,75 @@ pub fn day3_challenge1() -> i32
     }
     return sum_of_priority_errors;
 }
+
+
+
+
+// =========================== part 2 ============================//
+
+pub fn get_common_char_in_group(line1: &String, line2: &String, line3: &String) -> Option<HashSet<char>>
+{
+    let mut common_char_in_group = HashSet::new();
+    for char in line1.as_str().chars().into_iter()
+    {
+        if line2.contains(char) && line3.contains(char)
+        {
+            common_char_in_group.insert(char);
+        }
+    }
+    return Some(common_char_in_group);
+}
+
+
+pub fn day3_challenge2() -> i32
+{
+    let reader = get_file_reader_for("\\inputs\\day3.txt");
+
+    let letters_and_priorities = get_priorities();
+    let mut sum_of_priority_errors = 0;
+
+    let mut line1 = String::from("");
+    let mut line2 = String::from("");
+    let mut line3 = String::from("");
+
+    for (index, line) in reader.lines().enumerate()
+    {
+
+        let line = line.unwrap(); // Ignore errors.
+
+        if index == 0 || index == 1 || index == 2
+        {
+            match index
+            {
+                0 => line1 = line.clone(),
+                1 => line2 = line.clone(),
+                2 => line3 = line.clone(),
+                _ => ()
+            }
+
+            if index == 2
+            {
+                let common_char_in_group = get_common_char_in_group(&line1, &line2, &line3);
+                sum_of_priority_errors += get_total_error_for_rucksack(&common_char_in_group, &letters_and_priorities);
+            }
+        }
+        else
+        {
+            match (index + 1) % 3
+            {
+                2 => line2 = line.clone(),
+                1 => line1 = line.clone(),
+                0 => line3 = line.clone(),
+                _ => println!("iets is mis gegaan")
+            }
+    
+            if (index + 1) % 3 == 0
+            {
+                // we hebben een groep
+                let common_char_in_group = get_common_char_in_group(&line1, &line2, &line3);
+                sum_of_priority_errors += get_total_error_for_rucksack(&common_char_in_group, &letters_and_priorities);
+            }
+        }
+    }
+    return sum_of_priority_errors;
+}
