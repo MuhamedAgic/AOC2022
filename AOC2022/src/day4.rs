@@ -97,7 +97,7 @@ pub fn day4_challenge2() -> i32
 {
     let reader = get_file_reader_for("\\inputs\\day4.txt");
 
-    let mut amount_fully_contains_other = 0;
+    let mut amount_overlapping = 0;
     for line in reader.lines()
     {
         let line = line.unwrap(); // Ignore errors.
@@ -105,8 +105,8 @@ pub fn day4_challenge2() -> i32
         let sections = get_sections(line.as_str());
         if overlaps(&sections.0, &sections.1)
         {
-            amount_fully_contains_other += 1;
+            amount_overlapping += 1;
         }
     }
-    return amount_fully_contains_other;
+    return amount_overlapping;
 }
