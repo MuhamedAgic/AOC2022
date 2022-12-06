@@ -34,11 +34,11 @@ pub fn day6_part1() -> i32
         {
             if chunk_of_14.len() == 14
             {
-                let check_chunk: Vec<char> = chunk_of_14.clone()
-                                                        .into_iter()
-                                                        .unique()
-                                                        .collect_vec();
-                if check_chunk.len() == 14
+                if chunk_of_14.clone()
+                              .into_iter()
+                              .unique()
+                              .collect_vec()
+                              .len() == 14
                 {
                     break;
                 }
