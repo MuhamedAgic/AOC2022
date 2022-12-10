@@ -118,12 +118,15 @@ pub fn day8_part1() -> u32
 
 // ================= part 2 ====================//
 
-pub fn get_scenic_score_for_top(row_nr: usize, col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
+pub fn get_scenic_score_for_top(mut row_nr: usize, col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
 {
     let current_value = grid[row_nr][col_nr];
     let mut blocked_at_x_trees = 1;
-    let start_at_row = row_nr - 1; // TODO dit fixen, substract overflow bij 0
-    for i in (0..start_at_row).rev()
+    if row_nr != 0
+    {
+        row_nr -= 1; 
+    }
+    for i in (0..row_nr).rev()
     {
         if grid[i][col_nr] < current_value
         {
@@ -137,12 +140,15 @@ pub fn get_scenic_score_for_top(row_nr: usize, col_nr: usize, grid: &Vec<Vec<u32
     return blocked_at_x_trees;
 }
 
-pub fn get_scenic_score_for_bottom(row_nr: usize, col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
+pub fn get_scenic_score_for_bottom(mut row_nr: usize, col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
 {
     let current_value = grid[row_nr][col_nr];
     let mut blocked_at_x_trees = 1;
-    let start_at_row = row_nr + 1;
-    for i in start_at_row..grid.len()
+    if row_nr < grid.len()
+    {
+        row_nr += 1;
+    }
+    for i in row_nr..grid.len()
     {
         if grid[i][col_nr] < current_value
         {
@@ -156,12 +162,15 @@ pub fn get_scenic_score_for_bottom(row_nr: usize, col_nr: usize, grid: &Vec<Vec<
     return blocked_at_x_trees;
 }
 
-pub fn get_scenic_score_for_left(row_nr: usize, col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
+pub fn get_scenic_score_for_left(row_nr: usize, mut col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
 {
     let current_value = grid[row_nr][col_nr];
     let mut blocked_at_x_trees = 1;
-    let start_at_col = col_nr - 1;
-    for i in (0..start_at_col).rev()
+    if col_nr > 0
+    {
+        col_nr -= 1;
+    }
+    for i in (0..col_nr).rev()
     {
         if grid[row_nr][i] < current_value
         {
@@ -175,12 +184,15 @@ pub fn get_scenic_score_for_left(row_nr: usize, col_nr: usize, grid: &Vec<Vec<u3
     return blocked_at_x_trees;
 }
 
-pub fn get_scenic_score_for_right(row_nr: usize, col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
+pub fn get_scenic_score_for_right(row_nr: usize, mut col_nr: usize, grid: &Vec<Vec<u32>>) -> u32
 {
     let current_value = grid[row_nr][col_nr];
     let mut blocked_at_x_trees = 1;
-    let start_at_col = col_nr + 1;
-    for i in start_at_col..grid[row_nr].len()
+    if col_nr < grid[row_nr].len()
+    {
+        col_nr += 1;
+    }
+    for i in col_nr..grid[row_nr].len()
     {
         if grid[row_nr][i] < current_value
         {
@@ -219,7 +231,7 @@ pub fn get_best_scenic_score(grid: &Vec<Vec<u32>>) -> u32
 
 pub fn day8_part2() -> u32
 {
-    let reader = get_file_reader_for("\\inputs\\day8.txt");
+    let reader = get_file_reader_for("\\AOC2022\\inputs\\day8.txt");
 
     let mut grid = Vec::new();
     
