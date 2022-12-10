@@ -16,6 +16,6 @@ pub use day10::*;
 
 fn main() 
 {
-    let output = day10::day10_part1();
+    let output = day10::day10_part2();
     println!("{}", output);
 }
